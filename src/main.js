@@ -1,58 +1,22 @@
-import { createStore } from "redux";
-import "./style.scss";
-
-const initialState = 0;
-
-const reduce = (state = initialState, action) => {
-  switch (action.type) {
-    case "INC":
-      return state + 1;
-    case "DEC":
-      return state - 1;
-    case "RND":
-      return action.payload;
-    case "CLS":
-      return state * 0;
-  }
-};
+import { createStore, bindActionCreators } from "redux";
+import { reduce } from "./reduce";
+import * as actions from "./actions";
 
 const store = createStore(reduce);
+const { dispatch, getState, subscribe } = store;
 
 const uptUI = () => {
-  document.querySelector("#counter").textContent = store.getState();
+  document.querySelector("#counter").textContent = getState();
 };
 
-store.subscribe(uptUI);
+subscribe(uptUI);
 
-const inc = () => {
-  return { type: "INC" };
-};
+const { inc, dec, rnd, cls } = bindActionCreators(actions, dispatch);
 
-const dec = () => {
-  return { type: "DEC" };
-};
-
-const rnd = (value) => {
-  return { type: "RND", payload: value };
-};
-
-const cls = () => {
-  return { type: "CLS" };
-};
-
-document.querySelector("#inc").addEventListener("click", () => {
-  store.dispatch(inc());
-});
-
-document.querySelector("#dec").addEventListener("click", () => {
-  store.dispatch(dec());
-});
-
+document.querySelector("#inc").addEventListener("click", inc);
+document.querySelector("#dec").addEventListener("click", dec);
 document.querySelector("#rnd").addEventListener("click", () => {
   const randomNum = Math.floor(Math.random() * 100);
-  store.dispatch(rnd(randomNum));
+  rnd(randomNum);
 });
-
-document.querySelector("#clear__btn").addEventListener("click", () => {
-  store.dispatch(cls());
-});
+document.querySelector("#clear__btn").addEventListener("click", cls);
