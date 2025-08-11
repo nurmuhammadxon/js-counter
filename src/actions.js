@@ -1,6 +1,8 @@
-const inc = () => ({ type: "INC" });
-const dec = () => ({ type: "DEC" });
-const rnd = (value) => ({ type: "RND", payload: value });
-const cls = () => ({ type: "CLS" });
+import { createAction } from "@reduxjs/toolkit";
+
+const inc = createAction("INC");
+const dec = createAction("DEC");
+const rnd = createAction("RND", (value) => ({ payload: value }));
+const cls = createAction("CLS");
 
 export { inc, cls, dec, rnd };

@@ -7,7 +7,7 @@ const reduce = (state = initialState, action) => {
     case "DEC":
       return state - 1;
     case "RND":
-      return action.payload;
+      return state + action.payload;
     case "CLS":
       return state * 0;
   }
